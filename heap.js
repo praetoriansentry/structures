@@ -66,9 +66,9 @@ jfh.heap = {};
         }
     };
     /**
-      * The algorithm to actually sort an array using heaps
-      * @param {Array} A the array to be sorted
-      */
+     * The algorithm to actually sort an array using heaps
+     * @param {Array} A the array to be sorted
+     */
     h.heapsort = function(/*Array*/ A){
         h.buildMaxHeap(A);
         var len = A.length - 1;
@@ -82,20 +82,20 @@ jfh.heap = {};
         }
     };
     /**
-      * The function to get the max element in the heap runs in constant time
-      * obviously
-      * @param {Array} the heap to extract the max element from
-      */
+     * The function to get the max element in the heap runs in constant time
+     * obviously
+     * @param {Array} A the heap to extract the max element from
+     */
     h.heapMaximum = function(/*Array*/ A){
         // This implementation is indexed from 0
         return A[0];
     };
     /**
-      * The point of this functino is to actually remove the max element from
-      * the heap.  So if you are using it like a queue of some kind you can
-      * easily pop off elements
-      * @param {Array} the heap
-      */
+     * The point of this functino is to actually remove the max element from
+     * the heap.  So if you are using it like a queue of some kind you can
+     * easily pop off elements
+     * @param {Array} A the heap
+     */
     h.extractMax = function(/*Array*/ A){
         if(A.heapSize < 0){
             return Error('Heap Underflow');
@@ -105,5 +105,33 @@ jfh.heap = {};
         A.heapSize = A.heapSize - 1;
         h.maxHeapify(A,0);
         return max;
+    };
+    /**
+     * The increase key function.  Could be used for a queue as well
+     * @param {Array} A the heap
+     * @param {Number} i the index of the element whose key we are increasing
+     * @param {Number} key the key actual key
+     */
+    h.increaseKey = function(/*Array*/ A, /*Number*/ i, /*Number*/ key){
+        if( key < A[i]){
+            return Error('New Key is smaller than current key');
+        }
+        A[i] = key;
+        while(i > 0 && A[h.parent(i)] < A[i]){
+            var tmp = A[i];
+            A[i] = A[h.parent(i)];
+            A[h.parent(i)] = tmp;
+            i = h.parent(i);
+        }
+    };
+    /**
+     * Inserts the given key into the heap
+     * @param {Array} A The heap
+     * @param {Number} key The key to be inserted
+     */
+    h.heapInsert = function(/*Array*/ A, /*Number*/ key){
+        A.heapSize = A.heapSize + 1;
+        A[A.heapSize] = -Infinity;
+        h.increaseKey(A, A.heapSize, key);
     };
 })();
