@@ -74,12 +74,9 @@ jfh.heap = {};
         var len = A.length - 1;
         for(var i = len; i >= 1; i--){
             // Exchange 1 and i... this isn't confusing at all...
-            console.log(A);
-            console.log(i);
             var tmp = A[i];
             A[i] = A[0];
             A[0] = tmp;
-            console.log(A);
             A.heapSize = A.heapSize - 1;
             h.maxHeapify(A, 0);
         }
@@ -92,5 +89,21 @@ jfh.heap = {};
     h.heapMaximum = function(/*Array*/ A){
         // This implementation is indexed from 0
         return A[0];
+    };
+    /**
+      * The point of this functino is to actually remove the max element from
+      * the heap.  So if you are using it like a queue of some kind you can
+      * easily pop off elements
+      * @param {Array} the heap
+      */
+    h.extractMax = function(/*Array*/ A){
+        if(A.heapSize < 0){
+            return Error('Heap Underflow');
+        }
+        var max = h.heapMaximum(A);
+        A[0] = A[A.heapSize];
+        A.heapSize = A.heapSize - 1;
+        h.maxHeapify(A,0);
+        return max;
     };
 })();
