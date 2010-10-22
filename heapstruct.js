@@ -114,7 +114,7 @@ var jfh = jfh || {};
      * The function to get the max element in the heap runs in constant time
      * obviously
      */
-    h.heapMaximum = function(){
+    h.maximum = function(){
         // This implementation is indexed from 0
         return this.data[0];
     };
@@ -126,9 +126,9 @@ var jfh = jfh || {};
     h.extractMax = function(){
         var A = this.data;
         if(A.heapSize < 0){
-            return Error('Heap Underflow');
+            return undefined;//Error('Heap Underflow');
         }
-        var max = this.heapMaximum(A);
+        var max = this.maximum();
         A[0] = A[A.heapSize];
         A.heapSize = A.heapSize - 1;
         this.maxHeapify(0);
@@ -141,7 +141,7 @@ var jfh = jfh || {};
      */
     h.increaseKey = function(/*Number*/ i, /*Number*/ key){
         var A = this.data;
-        if( key < A[i]){
+        if( key < A[i] ){
             return Error('New Key is smaller than current key');
         }
         A[i] = key;
@@ -156,7 +156,7 @@ var jfh = jfh || {};
      * Inserts the given key into the heap
      * @param {Number} key The key to be inserted
      */
-    h.heapInsert = function(/*Number*/ key){
+    h.insert = function(/*Number*/ key){
         var A = this.data;
         A.heapSize = A.heapSize + 1;
         A[A.heapSize] = -Infinity;
