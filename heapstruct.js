@@ -6,8 +6,16 @@ var jfh = jfh || {};
      * the heap
      */
     function heap(/*Object*/ props){
+        function defaultCompare(a,b){
+            if(a > b){
+                return true;
+            }else{
+                return false;
+            }
+        }
         props = props || {};
         this.data = props.data || [];
+        this.comparator = props.comparator || defaultCompare;
         this.buildMaxHeap();
     }
     var h = heap.prototype;
@@ -44,12 +52,12 @@ var jfh = jfh || {};
         var r =  this.right(i);
         var heapSize = A.heapSize;
         var largest;
-        if( l <= heapSize && A[l] > A[i]){
+        if( l <= heapSize && this._compareElements(l,i)){
             largest = l;
         }else{
             largest = i;
         }
-        if( r <= heapSize && A[r] > A[largest] ){
+        if( r <= heapSize && this._compareElements(r,largest)){
             largest = r;
         }
         if( largest != i ){
@@ -59,6 +67,17 @@ var jfh = jfh || {};
             this.maxHeapify(largest);
         }
     };
+    /**
+     * This function figures out what which of the two arugments is bigger
+     * @param {Number} a the INDEX of the first element
+     * @param {Number} b the INDEX of the second element element
+     * @return {Boolean} true if the element at a is greater than the
+     * element at position b.  false otherwise
+     */
+     h._compareElements = function(a,b){
+         return this.comparator(this.data[a], this.data[b]);
+     };
+
     /**
      * Procedure goes throught nodes of the tree and runs maxHeapify on each one
      */
