@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>Linked List Testing</title>
+        <script src="../linkedlist.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <h1>Linked List Testing</h1>
+<script type="text/javascript">
+(function(){
+    console.log('Constructing Linked List');
+    var list = new jfh.LinkedList();
+    console.log(list);
+    console.log('Inserting first 20 squares');
+    for(var i = 1; i<=20; i++){
+        var node = new jfh.Node(i*i,i);
+        list.insert(node);
+    }
+    console.log(list);
+    console.log('Deleting three elements');
+    list.delete(list.head);
+    list.delete(list.head);
+    list.delete(list.head);
+    console.log(list);
+    console.log('We are three elements fewer');
+    console.log('Constructing key based linked list');
+    var list2 = new jfh.LinkedList([9999,999,99,9]);
+    console.log(list2);
+})();
+</script>
+    </body>
+</html>
