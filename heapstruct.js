@@ -126,7 +126,7 @@ var jfh = jfh || {};
      *
      */
     h.heapsort = function(){
-        var tmpHeap = new heap({data:this._cloneArray()});
+        var tmpHeap = new heap({data:this._cloneArray(),comparator:this.comparator});
         return tmpHeap._heapsort();
     };
     /**
