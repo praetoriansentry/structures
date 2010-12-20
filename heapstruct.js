@@ -7,10 +7,13 @@ var jfh = jfh || {};
      */
     function heap(/*Object*/ props){
         function defaultCompare(a,b){
+            if(a == b){
+                return 0;
+            }
             if(a > b){
-                return true;
+                return 1;
             }else{
-                return false;
+                return -1;
             }
         }
         props = props || {};
@@ -52,12 +55,12 @@ var jfh = jfh || {};
         var r =  this.right(i);
         var heapSize = A.heapSize;
         var largest;
-        if( l <= heapSize && this._compareElements(l,i)){
+        if( l <= heapSize && this._compareElements(l,i) > 0){
             largest = l;
         }else{
             largest = i;
         }
-        if( r <= heapSize && this._compareElements(r,largest)){
+        if( r <= heapSize && this._compareElements(r,largest) > 0){
             largest = r;
         }
         if( largest != i ){
@@ -71,8 +74,8 @@ var jfh = jfh || {};
      * This function figures out what which of the two arugments is bigger
      * @param {Number} a the INDEX of the first element
      * @param {Number} b the INDEX of the second element element
-     * @return {Boolean} true if the element at a is greater than the
-     * element at position b.  false otherwise
+     * @return {Number} 0 if the elements are = 1 if a is greater than b
+     * 0 if b is greater than a
      */
      h._compareElements = function(a,b){
          return this.comparator(this.data[a], this.data[b]);
@@ -165,7 +168,8 @@ var jfh = jfh || {};
             return Error('New Key is smaller than current key');
         }
         A[i] = key;
-        while(i > 0 && A[this.parent(i)] < A[i]){
+        // while(i > 0 && A[this.parent(i)] < A[i]){
+        while(i > 0 && this._compareElements(this.parent(i),i) < 0){
             var tmp = A[i];
             A[i] = A[this.parent(i)];
             A[this.parent(i)] = tmp;
